@@ -30,11 +30,9 @@ if [ ! $CLEAN = "false" ]; then
   echo "Cleaning the instance ready for bundling..."
   rm -f /root/.*hist* $HOME/.*hist*
   rm -f /root/.my.cnf
-  rm -rf /root/.ec2
-  rm -f /root/.ssh/*
   rm -f /var/log/*.gz
   rm -f /var/ec2/*
-  find /var/log -name mysql -prune -o -type f -print | while read i; do sudo cp /dev/null $i; done
+  #find /var/log -name mysql -prune -o -type f -print | while read i; do sudo cp /dev/null $i; done
 fi
 
 # Remove any existing AMI bundles, and create a location for new AMI bundles
