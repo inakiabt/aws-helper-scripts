@@ -15,9 +15,9 @@ fi
 BUCKET=$1
 PREFIX=$2
 CLEAN=$3
-ACCOUNT_NUMBER=$(cat ~/.ec2/account-number)
-ACCESS_KEY_ID=$(cat ~/.ec2/access-key-id)
-SECRET_ACCESS_KEY=$(cat ~/.ec2/secret-access-key)
+ACCOUNT_NUMBER=$(cat $HOME/.ec2/account-number)
+ACCESS_KEY_ID=$(cat $HOME/.ec2/access-key-id)
+SECRET_ACCESS_KEY=$(cat $HOME/.ec2/secret-access-key)
 
 if [ $(uname -m) = 'x86_64' ]; then
   ARCH=x86_64
@@ -28,8 +28,8 @@ fi
 # For security reasons we remove any files from the instance that may contain sensitive information
 if [ ! $CLEAN = "false" ]; then
   echo "Cleaning the instance ready for bundling..."
-  rm -f ~/.*hist* $HOME/.*hist*
-  rm -f ~/.my.cnf
+  rm -f $HOME/.*hist* $HOME/.*hist*
+  rm -f $HOME/.my.cnf
   rm -f /var/log/*.gz
   rm -f /var/ec2/*
   #find /var/log -name mysql -prune -o -type f -print | while read i; do sudo cp /dev/null $i; done
@@ -55,11 +55,11 @@ sudo -E ec2-bundle-vol                      \
   -d /mnt/ami                               \
   -p $PREFIX                                \
   -u $ACCOUNT_NUMBER                        \
-  -k ~/.ec2/pk.pem                      \
-  -c ~/.ec2/cert.pem                    \
+  -k $HOME/.ec2/pk.pem                      \
+  -c $HOME/.ec2/cert.pem                    \
   -s 10240                                  \
   --ec2cert /etc/ec2/amitools/cert-ec2.pem  \
-  -e /tmp,/mnt,~/.ssh,~/.ec2
+  -e /tmp,/mnt,$HOME/.ssh,$HOME/.ec2
 
 # Upload bundle to an S3 Bucket
 echo
